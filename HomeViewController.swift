@@ -10,10 +10,10 @@ import UIKit
 
 class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
-    @IBOutlet weak var bottomImageLabel1: UILabel!
-    @IBOutlet weak var bottomImageLabel2: UILabel!
-    @IBOutlet weak var bottomImageLabel3: UILabel!
-    @IBOutlet weak var bottomImageLabel4: UILabel!
+    @IBOutlet weak var bottomImageView1: UIImageView!
+    @IBOutlet weak var bottomImageView2: UIImageView!
+    @IBOutlet weak var bottomImageView3: UIImageView!
+    @IBOutlet weak var bottomImageView4: UIImageView!
     
 
     @IBOutlet weak var mostRecentGifImageView: UIImageView!
@@ -22,6 +22,7 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     @IBOutlet weak var flashLabel: UILabel!
     
     let NUM_IMAGES = 4
+    var capturedImageNum = 1
     
     var imagePickerController : UIImagePickerController = UIImagePickerController()
     var capturedImages : [UIImage] = []
@@ -63,21 +64,25 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         countdownLabel.text = nil
         flashLabel.isHidden = true
         
-        bottomImageLabel1.layoutIfNeeded()
-        bottomImageLabel1.layer.cornerRadius = bottomImageLabel1.frame.height / 2.0
-        bottomImageLabel1.clipsToBounds = true
+        bottomImageView1.layoutIfNeeded()
+        bottomImageView1.layer.cornerRadius = bottomImageView1.frame.height / 2.0
+        bottomImageView1.clipsToBounds = true
+        bottomImageView1.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
         
-        bottomImageLabel2.layoutIfNeeded()
-        bottomImageLabel2.layer.cornerRadius = bottomImageLabel2.frame.height / 2.0
-        bottomImageLabel2.clipsToBounds = true
+        bottomImageView2.layoutIfNeeded()
+        bottomImageView2.layer.cornerRadius = bottomImageView2.frame.height / 2.0
+        bottomImageView2.clipsToBounds = true
+        bottomImageView2.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
         
-        bottomImageLabel3.layoutIfNeeded()
-        bottomImageLabel3.layer.cornerRadius = bottomImageLabel3.frame.height / 2.0
-        bottomImageLabel3.clipsToBounds = true
+        bottomImageView3.layoutIfNeeded()
+        bottomImageView3.layer.cornerRadius = bottomImageView3.frame.height / 2.0
+        bottomImageView3.clipsToBounds = true
+        bottomImageView3.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
         
-        bottomImageLabel4.layoutIfNeeded()
-        bottomImageLabel4.layer.cornerRadius = bottomImageLabel4.frame.height / 2.0
-        bottomImageLabel4.clipsToBounds = true
+        bottomImageView4.layoutIfNeeded()
+        bottomImageView4.layer.cornerRadius = bottomImageView4.frame.height / 2.0
+        bottomImageView4.clipsToBounds = true
+        bottomImageView4.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
         
         imagePickerController.cameraOverlayView = overlayView
         
@@ -90,9 +95,27 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
             capturedImages.append(image)
+            switch capturedImageNum {
+            case 1:
+                bottomImageView1.image = image
+                break
+            case 2:
+                bottomImageView2.image = image
+                break
+            case 3:
+                bottomImageView3.image = image
+                break
+            case 4:
+                bottomImageView4.image = image
+                break
+            default:
+                break
+            }
+            capturedImageNum += 1
         }
         flashLabel.isHidden = true
         if capturedImages.count >= NUM_IMAGES {
+            capturedImageNum = 1
             self.dismiss(animated: true, completion: {
                 self.mostRecentGifImageView.animationImages = self.capturedImages
                 self.mostRecentGifImageView.animationDuration = 1.5
