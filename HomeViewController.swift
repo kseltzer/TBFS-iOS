@@ -121,11 +121,11 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         flashLabel.isHidden = true
         if capturedImages.count >= NUM_IMAGES {
             capturedImageNum = 1
+            self.mostRecentGifImageView.animationImages = self.capturedImages
+            self.mostRecentGifImageView.animationDuration = 1.5
+            self.mostRecentGifImageView.animationRepeatCount = 0
+            self.mostRecentGifImageView.startAnimating()
             self.dismiss(animated: true, completion: {
-                self.mostRecentGifImageView.animationImages = self.capturedImages
-                self.mostRecentGifImageView.animationDuration = 1.5
-                self.mostRecentGifImageView.animationRepeatCount = 0
-                self.mostRecentGifImageView.startAnimating()
                 self.makeGif(with: self.capturedImages, frameDelay: 0.3)
             })
         } else {
@@ -192,7 +192,6 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
                 }, completionHandler: { success, error in
                     if !success { NSLog("error creating asset: \(error)") }
             })
-            
         }
     }
     
