@@ -227,7 +227,8 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         let imageRef: CGImage = contextImage.cgImage!.cropping(to: rect)!
         
         // Create a new image based on the imageRef and rotate back to the original orientation
-        let image: UIImage = UIImage(cgImage: imageRef, scale: originalImage.scale, orientation: originalImage.imageOrientation)
+        let image: UIImage = UIImage(cgImage: imageRef, scale: originalImage.scale, orientation: .leftMirrored)
+
         
         return image
     }
