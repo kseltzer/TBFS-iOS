@@ -38,11 +38,6 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
         imagePickerController.cameraFlashMode = .auto
         imagePickerController.cameraDevice = .front
         
-        //Bundle.main.loadNibNamed("CameraOverlay", owner:self, options:nil)
-        //overlayView.frame = imagePickerController.cameraOverlayView!.frame
-        //imagePickerController.cameraOverlayView = overlayView
-        //overlayView = nil
-        
         self.present(imagePickerController, animated: true, completion: nil)
     }
     

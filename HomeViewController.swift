@@ -10,6 +10,7 @@ import UIKit
 import ImageIO
 import AssetsLibrary
 import MobileCoreServices
+import Photos
 
 class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
@@ -40,7 +41,7 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         startButton.clipsToBounds = true
         startButton.layer.cornerRadius = 20
         mostRecentGifImageView.layer.cornerRadius = 2
-        mostRecentGifImageView.transform = CGAffineTransform(rotationAngle: CGFloat.pi/2).concatenating(CGAffineTransform(scaleX: -1.0, y: 1.0))
+//        mostRecentGifImageView.transform = CGAffineTransform(rotationAngle: CGFloat.pi/2).concatenating(CGAffineTransform(scaleX: -1.0, y: 1.0))
     }
     
     // MARK: - UIImagePickerControllerDelegate
@@ -97,7 +98,8 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
-            capturedImages.append(image)
+            let editedImage = addWatermark(image: cropToSquare(image: image))
+            capturedImages.append(editedImage)
             switch capturedImageNum {
             case 1:
                 bottomImageView1.image = image
@@ -135,6 +137,19 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateCountdownLabel), userInfo: nil, repeats: true)
     }
     
+    func addWatermark(image: UIImage) -> UIImage{
+        let tbfsLogo = UIImage(named: "logo_corner_white")
+        
+        UIGraphicsBeginImageContext(image.size);
+        image.draw(in: CGRect(x: 0, y: 0, width: image.size.width, height: image.size.height))
+        tbfsLogo?.draw(in: CGRect(x: 10, y: image.size.height - (tbfsLogo!.size.height + 10), width: tbfsLogo!.size.width, height: tbfsLogo!.size.height), blendMode: .normal, alpha: 0.65)
+        
+        let updatedImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return updatedImage!
+    }
+    
     func updateCountdownLabel() {
         if countdownIndex == countdownNums.count {
             countdownLabel.text = nil
@@ -166,11 +181,55 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             CGImageDestinationFinalize(destination!)
             
             // save GIF to photo album
-            let library = ALAssetsLibrary()
-            let data = NSData(contentsOf: url as URL)
-            library.writeImageData(toSavedPhotosAlbum: data as Data!, metadata: nil, completionBlock: nil)
+            PHPhotoLibrary.shared().performChanges({
+                // Request creating an asset from the image.
+                let creationRequest = PHAssetChangeRequest.creationRequestForAssetFromImage(atFileURL: url as URL)
+                // Request editing the album.
+                guard let addAssetRequest = PHAssetCollectionChangeRequest(for: PHAssetCollection())
+                    else { return }
+                // Get a placeholder for the new asset and add it to the album editing request.
+                addAssetRequest.addAssets([creationRequest?.placeholderForCreatedAsset!] as NSArray)
+                }, completionHandler: { success, error in
+                    if !success { NSLog("error creating asset: \(error)") }
+            })
             
         }
+    }
+    
+    func cropToSquare(image originalImage: UIImage) -> UIImage {
+        // Create a copy of the image without the imageOrientation property so it is in its native orientation (landscape)
+        let contextImage: UIImage = UIImage(cgImage: originalImage.cgImage!)
+        
+        // Get the size of the contextImage
+        let contextSize: CGSize = contextImage.size
+        
+        var posX: CGFloat
+        var posY: CGFloat
+        var width: CGFloat
+        var height: CGFloat
+        
+        // Check to see which length is the longest and create the offset based on that length, then set the width and height of our rect
+        if contextSize.width > contextSize.height {
+            posX = ((contextSize.width - contextSize.height) / 2)
+            posY = 0
+            width = contextSize.height
+            height = contextSize.height
+        } else {
+            posX = 0
+            posY = ((contextSize.height - contextSize.width) / 2)
+            width = contextSize.width
+            height = contextSize.width
+        }
+        
+        let rect = CGRect(x: posX, y: posY, width: width, height: height)
+        
+        // Create bitmap image from context using the rect
+        let imageRef: CGImage = contextImage.cgImage!.cropping(to: rect)!
+        
+        // Create a new image based on the imageRef and rotate back to the original orientation
+        let image: UIImage = UIImage(cgImage: imageRef, scale: originalImage.scale, orientation: originalImage.imageOrientation)
+        
+        return image
     }
     
     // MARK: - Navigation

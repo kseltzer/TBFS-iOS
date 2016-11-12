@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -49,14 +50,14 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="FnF-pw-0r3">
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="98" id="cXy-yA-ph7"/>
                         <constraint firstAttribute="height" constant="98" id="gE8-xc-Ega"/>
                     </constraints>
                 </imageView>
                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Wec-DA-sb6">
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="98" id="5fQ-nZ-gTA"/>
                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="98" id="Vze-tP-pm9"/>
@@ -65,7 +66,7 @@
                     </constraints>
                 </imageView>
                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="rD7-pN-1u4">
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="98" id="20o-Hf-djf"/>
                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="98" id="Ajy-xs-23V"/>
@@ -76,7 +77,7 @@
                     </constraints>
                 </imageView>
                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="xZS-Dg-4e7">
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="width" relation="lessThanOrEqual" constant="98" id="2sJ-6E-hsa"/>
                         <constraint firstAttribute="width" constant="98" id="2xJ-cb-O2X"/>
@@ -88,6 +89,12 @@
                         <constraint firstAttribute="height" relation="lessThanOrEqual" constant="98" id="wx3-Jv-RMA"/>
                     </constraints>
                 </imageView>
+                <imageView userInteractionEnabled="NO" alpha="0.65000000000000002" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo_corner_white" translatesAutoresizingMaskIntoConstraints="NO" id="ClR-6k-nhb">
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="ClR-6k-nhb" secondAttribute="height" multiplier="1:1" id="34N-oI-QS7"/>
+                        <constraint firstAttribute="width" constant="180" id="J1g-0v-h4s"/>
+                    </constraints>
+                </imageView>
             </subviews>
             <constraints>
                 <constraint firstItem="xZS-Dg-4e7" firstAttribute="leading" secondItem="rD7-pN-1u4" secondAttribute="trailing" constant="61" id="40n-zr-gYU"/>
@@ -96,12 +103,14 @@
                 <constraint firstItem="FnF-pw-0r3" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="96.5" id="ENi-6x-Nag"/>
                 <constraint firstItem="F2n-3F-HdI" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="VXT-pd-eus"/>
                 <constraint firstItem="48C-iw-4VQ" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="VXt-o4-N5P"/>
+                <constraint firstItem="ClR-6k-nhb" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="VkY-Jn-bW0"/>
                 <constraint firstAttribute="bottom" secondItem="rD7-pN-1u4" secondAttribute="bottom" constant="24" id="W2B-7p-Gnd"/>
                 <constraint firstItem="rD7-pN-1u4" firstAttribute="leading" secondItem="Wec-DA-sb6" secondAttribute="trailing" constant="61" id="WRg-Fe-7sE"/>
                 <constraint firstItem="F2n-3F-HdI" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="WSh-1Q-Hky"/>
                 <constraint firstAttribute="bottom" secondItem="FnF-pw-0r3" secondAttribute="bottom" constant="24" id="ZSs-w8-V9C"/>
                 <constraint firstItem="Wec-DA-sb6" firstAttribute="leading" secondItem="FnF-pw-0r3" secondAttribute="trailing" constant="61" id="Zdw-u0-fJE"/>
                 <constraint firstAttribute="bottom" secondItem="7zv-1L-O49" secondAttribute="bottom" id="ia7-mW-p2I"/>
+                <constraint firstItem="7zv-1L-O49" firstAttribute="top" secondItem="ClR-6k-nhb" secondAttribute="bottom" constant="16" id="lG0-EY-ssy"/>
                 <constraint firstAttribute="bottom" secondItem="Wec-DA-sb6" secondAttribute="bottom" constant="24" id="r4h-Jr-767"/>
                 <constraint firstAttribute="bottom" secondItem="xZS-Dg-4e7" secondAttribute="bottom" constant="24" id="skx-zO-Vja"/>
                 <constraint firstItem="7zv-1L-O49" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="xld-iN-hd8"/>
@@ -111,4 +120,7 @@
             <point key="canvasLocation" x="33" y="99"/>
         </view>
     </objects>
+    <resources>
+        <image name="logo_corner_white" width="115" height="115"/>
+    </resources>
 </document>
