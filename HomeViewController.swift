@@ -7,6 +7,9 @@
 //
 
 import UIKit
+import ImageIO
+import AssetsLibrary
+import MobileCoreServices
 
 class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
@@ -121,6 +124,7 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
                 self.mostRecentGifImageView.animationDuration = 1.5
                 self.mostRecentGifImageView.animationRepeatCount = 0
                 self.mostRecentGifImageView.startAnimating()
+                self.makeGif(with: self.capturedImages, frameDelay: 0.3)
             })
         } else {
             startCountdown()
@@ -141,6 +145,31 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         } else {
             countdownLabel.text = countdownNums[countdownIndex]
             countdownIndex += 1
+        }
+    }
+    
+    func makeGif(with images: [UIImage], loopCount: Int = 0, frameDelay: Float) {
+        let fileProperties = [kCGImagePropertyGIFDictionary as String: [kCGImagePropertyGIFLoopCount as String: loopCount]]
+        let frameProperties = [kCGImagePropertyGIFDictionary as String: [kCGImagePropertyGIFDelayTime as String: frameDelay]]
+        
+        let documentsDirectory = NSTemporaryDirectory()
+        let url: NSURL? = NSURL(fileURLWithPath: documentsDirectory).appendingPathComponent("animated.gif") as NSURL?
+        
+        if let url = url {
+            let destination = CGImageDestinationCreateWithURL(url, kUTTypeGIF, images.count, nil)
+            CGImageDestinationSetProperties(destination!, fileProperties as CFDictionary?)
+            
+            for i in 0..<images.count {
+                CGImageDestinationAddImage(destination!, images[i].cgImage!, frameProperties as CFDictionary?)
+            }
+            
+            CGImageDestinationFinalize(destination!)
+            
+            // save GIF to photo album
+            let library = ALAssetsLibrary()
+            let data = NSData(contentsOf: url as URL)
+            library.writeImageData(toSavedPhotosAlbum: data as Data!, metadata: nil, completionBlock: nil)
+            
         }
     }
     
